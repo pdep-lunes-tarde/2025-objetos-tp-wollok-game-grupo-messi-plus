@@ -1,3 +1,4 @@
+import tpIntegrador.juegoLaberinto
 program juego {
-
+    juegoLaberinto.jugar()
 }
