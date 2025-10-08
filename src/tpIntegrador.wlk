@@ -1,99 +1,44 @@
 import src.jugador.*
 import wollok.game.*
 import src.laberinto.*
+import nivel1.*
+import nivel2.*
 
-object juegoLaberinto {
-    //tablero
-    const intervaloDeTiempoInicial = 10
-    var intervaloDeTiempo = intervaloDeTiempoInicial
+const niveles = [nivel1, nivel2]
 
-    method ancho() = 10
-    method alto() = 10
-
+class JuegoLaberinto {
+    
+    method cargarVisuales()
+    
     method configurar()
     {
-        game.width(self.ancho())
-        game.height(self.alto())
-        game.cellSize(34)
-        game.boardGround("fondo.png")
-        
         game.addVisual(jugador)
-
-        /*---------------prueba para nivel 1-------------------*/
-        game.addVisual(new Muro(position=new Position(x=0, y=0)))
-        game.addVisual(new Muro(position=new Position(x=0, y=1)))
-        game.addVisual(new Muro(position=new Position(x=0, y=2)))
-
-        game.addVisual(new Muro(position=new Position(x=1, y=0)))
-        game.addVisual(new Muro(position=new Position(x=1, y=2)))
-
-        game.addVisual(new Muro(position=new Position(x=2, y=0)))
-        game.addVisual(new Muro(position=new Position(x=2, y=2)))
-
-        game.addVisual(new Muro(position=new Position(x=3, y=0)))
-        game.addVisual(new Muro(position=new Position(x=3, y=2)))
-
-        game.addVisual(new Muro(position=new Position(x=4, y=0)))
-        game.addVisual(new Muro(position=new Position(x=4, y=2)))
-
-        game.addVisual(new Muro(position=new Position(x=5, y=0)))
-        game.addVisual(new Muro(position=new Position(x=5, y=2)))
-
-        game.addVisual(new Muro(position=new Position(x=6, y=0)))
-        game.addVisual(new Muro(position=new Position(x=6, y=2)))
-
-        game.addVisual(new Muro(position=new Position(x=7, y=0)))
-        game.addVisual(new Muro(position=new Position(x=7, y=2)))
-
-        game.addVisual(new Muro(position=new Position(x=8, y=0)))
-
-        game.addVisual(new Muro(position=new Position(x=9, y=0)))
-        game.addVisual(new Muro(position=new Position(x=9, y=1)))
-        game.addVisual(new Muro(position=new Position(x=9, y=2)))
-        /*---------------prueba para nivel 1-------------------*/
-
-        game.onTick(intervaloDeTiempo, "movimiento", { jugador.move() })
-
-        keyboard.space().onPressDo {
-            intervaloDeTiempo -= 5
-            game.removeTickEvent("movimiento")
-            game.onTick(intervaloDeTiempo, "movimiento", { jugador.move() })
-
-        }
-
-        keyboard.right().onPressDo {
-            jugador.direccion(derecha)    
-        }
-        keyboard.d().onPressDo {
-            jugador.direccion(derecha)
-        }
-        keyboard.left().onPressDo {
-            jugador.direccion(izquierda)
-        }
-        keyboard.a().onPressDo {
-            jugador.direccion(izquierda)
-        }
-        keyboard.up().onPressDo {
-            jugador.direccion(arriba)
-        }
-        keyboard.w().onPressDo {
-            jugador.direccion(arriba)
-        }
-        keyboard.down().onPressDo {
-            jugador.direccion(abajo)
-        }
-        keyboard.s().onPressDo {
-            jugador.direccion(abajo)
-        }
+        keyboard.up().onPressDo({ jugador.irArriba() })
+		keyboard.down().onPressDo({ jugador.irAbajo() })
+		keyboard.left().onPressDo({ jugador.irIzquierda() })
+		keyboard.right().onPressDo({ jugador.irDerecha() })
+        keyboard.w().onPressDo({ jugador.irArriba() })
+		keyboard.s().onPressDo({ jugador.irAbajo() })
+		keyboard.a().onPressDo({ jugador.irIzquierda() })
+		keyboard.d().onPressDo({ jugador.irDerecha() })
+        keyboard.r().onPressDo({ self.restart() })
     }
 
     method restart() {
         game.clear()
         self.configurar()
+        jugador.restartJugador()
+        self.cargarVisuales() 
     }
     
     method jugar() {
+        self.cargarVisuales()
         self.configurar()
         game.start()
     }
+    // method ganar(objeto) {
+    //     var nroNivel = objeto.nivelActual()
+    //     game.clear()
+    //     niveles.get(nroNivel).jugar()
+    // }
 }

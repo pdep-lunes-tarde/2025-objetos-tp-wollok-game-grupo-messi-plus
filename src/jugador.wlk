@@ -1,77 +1,137 @@
 import src.tpIntegrador.*
 import wollok.game.*
+import nivel1.*
+import laberinto.*
 
-object jugador
-{
-    var direccion = sinDireccion
-    var posicion = new Position(x=1, y=1)
+
+object jugador {
+	var property position = game.at(1,1)
+	var direccion = arriba
+	var property nivelActual = nivel1
+    var movimientos = [
+        new Position(x=1, y=1)
+    ]
+
+	method inicializarMovimientos()
+	{
+		movimientos = [new Position(x=1, y=1)]
+	}
 
     method image() {
         return "penguin.png"
     }
-
-    method position() {
-        return posicion
+// set y get del nivActual
+    method nivelActual(nvoNivel) {
+        nivelActual = nvoNivel
     }
 
-    method position(nuevaPosicion) {
-        posicion = nuevaPosicion
+    method nivelActual() = nivelActual 
+// reseteo de jugador
+    method restartJugador()
+    {
+        self.position(new Position(x=1, y=1))
+        self.inicializarMovimientos()
     }
 
-    method direccion(nuevaDireccion) {
-        direccion = nuevaDireccion
-    }
+// colisiones con bloques
 
-    method move() {
-        const nuevaPosicion = direccion.siguientePosicion(posicion)
-
-        posicion = self.posicionCorregida(nuevaPosicion)
-    }
-
-    method posicionCorregida(posicionACorregir) {
-        const nuevaY = wraparound.aplicarA(posicionACorregir.y(), 0, juegoLaberinto.alto())
-        const nuevaX = wraparound.aplicarA(posicionACorregir.x(), 0, juegoLaberinto.ancho())
-
-        return new Position(x=nuevaX, y=nuevaY)
-    }
-}
-
-
-object izquierda {
-    method siguientePosicion(posicion) {
-        return posicion.left(1)
-    }
-}
-object abajo {
-    method siguientePosicion(posicion) {
-        return posicion.down(1)
-    }
-}
-object arriba {
-    method siguientePosicion(posicion) {
-        return posicion.up(1)
-    }
-}
-object derecha {
-    method siguientePosicion(posicion) {
-        return posicion.right(1)
-    }
-}
-
-object sinDireccion {
-    method siguientePosicion(posicion) {
-        return posicion
-    }
-}
-
-object wraparound {
-    method aplicarA(numero, topeInferior, topeSuperior) {
-        if(numero < topeInferior) {
-            return topeSuperior
-        } else if(numero > topeSuperior) {
-            return topeInferior
-        } else {
-            return numero
+	method colision(objeto)
+    {
+        if(objeto.nombre() == "pared")
+        {
+            self.retrocede()
         }
-    }
+        if(objeto.nombre() == "objetivo")
+        {	
+			var primeraVez = true
+			if(self.position() == objeto.position()
+			 	&& 
+				 movimientos.size() == nivelActual.puntajeObjetivo()
+				 &&
+				 primeraVez) // && todos los hielos estan rotos, pisados
+			{	
+				primeraVez = false
+				game.say(self, "gane!")
+                //niveles.get(objeto.nivelActual()).ganar()
+			}
+			if(!primeraVez && self.position() == objeto.position() && movimientos.size() == nivelActual.puntajeObjetivo())
+			{
+				game.say(self, "gane de nuevo!")	
+			} 
+        }
+		if(objeto.nombre() == "hielo")
+		{
+			game.say(self, "no pises hielo")
+		}
+	}
+    
+// movimiento del jugador
+	method retrocede() {
+		position = direccion.opuesto().siguiente(position)
+	}
+	
+	method irArriba() {
+		direccion = arriba
+		self.avanzar()
+	}
+
+	method irAbajo() {
+		direccion = abajo
+		self.avanzar()
+	}
+
+	method irIzquierda() {
+		direccion = izquierda
+		self.avanzar()
+	}
+
+	method irDerecha() {
+		direccion = derecha
+		self.avanzar()
+	}
+	
+	method avanzar() {
+		const proxPosicion = direccion.siguiente(position)
+		if(!movimientos.contains(proxPosicion) && position != nivelActual.objetivoNivel().position())
+		{
+		game.addVisual(new Hielo(position = position))
+		movimientos.add(position)
+		position = proxPosicion
+		}
+	}
+	
+	method setDireccion(unaDireccion) {
+		direccion = unaDireccion
+	}
+	// set y get de posicion
+    method position() = position
+    method position(_position) {
+		position = _position	
+        } 
+}
+
+
+class Direccion {
+	method siguiente(position)
+    method opuesto()
+}
+
+object izquierda inherits Direccion { 
+	override method siguiente(position) = position.left(1) 
+	override method opuesto() = derecha
+}
+
+object derecha inherits Direccion { 
+	override method siguiente(position) = position.right(1) 
+	override method opuesto() = izquierda
+}
+
+object abajo inherits Direccion { 
+	override method siguiente(position) = position.down(1) 
+	override method opuesto() = arriba
+}
+
+object arriba inherits Direccion { 
+	override method siguiente(position) = position.up(1) 
+	override method opuesto() = abajo
 }
