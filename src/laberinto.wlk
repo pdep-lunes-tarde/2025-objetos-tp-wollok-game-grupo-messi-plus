@@ -1,3 +1,4 @@
+import src.jugador.*
 import wollok.game.*
 
 
@@ -20,6 +21,8 @@ class Objetivo {
     method nombre() = nombre
     method image() = "objetivo.jpg"
     method position() = position  
+
+    method alcanzoElObjetivo(jugador) = jugador.position() == self.position()
 }
 
 class Hielo {

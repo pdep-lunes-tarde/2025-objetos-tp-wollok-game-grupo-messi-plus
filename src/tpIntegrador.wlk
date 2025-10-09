@@ -36,6 +36,13 @@ class JuegoLaberinto {
         self.configurar()
         game.start()
     }
+
+    method crearVisual(dibujo)
+    {
+        game.addVisual(dibujo)
+		return dibujo
+    }
+    
     // method ganar(objeto) {
     //     var nroNivel = objeto.nivelActual()
     //     game.clear()
