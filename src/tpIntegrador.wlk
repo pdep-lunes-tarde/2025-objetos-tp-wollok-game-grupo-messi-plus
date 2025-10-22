@@ -13,14 +13,14 @@ class JuegoLaberinto {
     method configurar()
     {
         game.addVisual(jugador)
-        keyboard.up().onPressDo({ jugador.irArriba() })
-		keyboard.down().onPressDo({ jugador.irAbajo() })
-		keyboard.left().onPressDo({ jugador.irIzquierda() })
-		keyboard.right().onPressDo({ jugador.irDerecha() })
-        keyboard.w().onPressDo({ jugador.irArriba() })
-		keyboard.s().onPressDo({ jugador.irAbajo() })
-		keyboard.a().onPressDo({ jugador.irIzquierda() })
-		keyboard.d().onPressDo({ jugador.irDerecha() })
+        keyboard.up().onPressDo({ jugador.irenUnaDireccion(arriba) })
+		keyboard.down().onPressDo({ jugador.irenUnaDireccion(abajo) })
+		keyboard.left().onPressDo({ jugador.irenUnaDireccion(izquierda) })
+		keyboard.right().onPressDo({ jugador.irenUnaDireccion(derecha) })
+        keyboard.w().onPressDo({ jugador.irenUnaDireccion(arriba) })
+		keyboard.s().onPressDo({ jugador.irenUnaDireccion(abajo) })
+		keyboard.a().onPressDo({ jugador.irenUnaDireccion(izquierda) })
+		keyboard.d().onPressDo({ jugador.irenUnaDireccion(derecha) })
         keyboard.r().onPressDo({ self.restart() })
     }
 

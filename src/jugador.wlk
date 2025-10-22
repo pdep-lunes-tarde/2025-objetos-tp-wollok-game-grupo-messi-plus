@@ -12,36 +12,28 @@ object jugador {
         new Position(x=1, y=1)
     ]
 
-	method inicializarMovimientos()
+	method restartMovimientos()
 	{
 		movimientos = [new Position(x=1, y=1)]
 	}
 
     method image() {
-        return "penguin.png"
-    }
-// set y get del nivActual
-    method nivelActual(nvoNivel) {
-        nivelActual = nvoNivel
+        return "penguin2.png"
     }
 
-    method nivelActual() = nivelActual 
 // reseteo de jugador
     method restartJugador()
     {
         self.position(new Position(x=1, y=1))
-        self.inicializarMovimientos()
+        self.restartMovimientos()
     }
 
 // colisiones con bloques
 	method comprobarSiGano() = self.position() == nivelActual.objetivoNivel().position() 
 							&& movimientos.size() == nivelActual.puntajeObjetivo()
 	method colision(objeto)
-    {
-        if(objeto.nombre() == "pared")
-        {
-            self.retrocede()
-        }
+    {	
+		
         if(objeto.nombre() == "objetivo")
         {	
 			if(self.comprobarSiGano()) 
@@ -65,34 +57,21 @@ object jugador {
 		position = direccion.opuesto().siguiente(position)
 	}
 	
-	method irArriba() {
-		direccion = arriba
+	method irenUnaDireccion(d) {
+		self.setDireccion(d)
 		self.avanzar()
 	}
 
-	method irAbajo() {
-		direccion = abajo
-		self.avanzar()
-	}
-
-	method irIzquierda() {
-		direccion = izquierda
-		self.avanzar()
-	}
-
-	method irDerecha() {
-		direccion = derecha
-		self.avanzar()
-	}
-
-	method sePuedeAvanzar(sigPosicion) = !(movimientos.contains(sigPosicion)) && !(nivelActual.listaObstrucciones().contains(sigPosicion))
+	method sePuedeAvanzar(sigPosicion) = 
+	!(movimientos.contains(sigPosicion)) 
+	&& !(nivelActual.listaObstrucciones().contains(sigPosicion))
 	
 	method avanzar() {
 		const proxPosicion = direccion.siguiente(position)
 		//if(!movimientos.contains(proxPosicion) && position != nivelActual.objetivoNivel().position())
 		if(self.sePuedeAvanzar(proxPosicion))
 		{
-			game.addVisual(new Hielo(position = position))
+			game.addVisual(new HieloRoto(position = position))
 			movimientos.add(position)
 			position = proxPosicion
 		}
@@ -101,11 +80,6 @@ object jugador {
 	method setDireccion(unaDireccion) {
 		direccion = unaDireccion
 	}
-	// set y get de posicion
-    method position() = position
-    method position(_position) {
-		position = _position	
-        } 
 
 }
 

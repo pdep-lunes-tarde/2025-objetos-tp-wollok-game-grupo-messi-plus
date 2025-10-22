@@ -25,10 +25,16 @@ class Objetivo {
     method alcanzoElObjetivo(jugador) = jugador.position() == self.position()
 }
 
-class Hielo {
+class HieloRoto {
     const position
-    const nombre = "hielo"
-    method nombre() = nombre
-    method image() = "piso.jpg"
+    var textura = self.imagenRandom()
+
+    method image() = textura
+
+    method imagenRandom(){
+        const texturasPosibles = ["hieloroto.jpg","hieloroto1.jpg","hieloroto2.jpg"]
+        var sacarNum = 0
+        return texturasPosibles.get(sacarNum.randomUpTo(2))
+    }
     method position() = position  
 }
