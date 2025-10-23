@@ -5,33 +5,23 @@ import nivel1.*
 import nivel2.*
 
 class JuegoLaberinto {
-    const niveles = [nivel1, nivel2]
-    method cargarVisuales()
+    const listaNiveles = [nivel1, nivel2]
+    const player = jugador
+    var nivelActual = 1 
     
-    method configurar()
-    {
-        game.addVisual(jugador)
-        keyboard.up().onPressDo({ jugador.irenUnaDireccion(arriba) })
-		keyboard.down().onPressDo({ jugador.irenUnaDireccion(abajo) })
-		keyboard.left().onPressDo({ jugador.irenUnaDireccion(izquierda) })
-		keyboard.right().onPressDo({ jugador.irenUnaDireccion(derecha) })
-        keyboard.w().onPressDo({ jugador.irenUnaDireccion(arriba) })
-		keyboard.s().onPressDo({ jugador.irenUnaDireccion(abajo) })
-		keyboard.a().onPressDo({ jugador.irenUnaDireccion(izquierda) })
-		keyboard.d().onPressDo({ jugador.irenUnaDireccion(derecha) })
-        keyboard.r().onPressDo({ self.restart() })
-    }
+    method cargarVisuales()
+    method player() = jugador
 
     method restart() {
         game.clear()
-        self.configurar()
+        configurador.configurar(self)
         jugador.restartJugador()
         self.cargarVisuales() 
     }
     
     method jugar() {
         self.cargarVisuales()
-        self.configurar()
+        configurador.configurar(self)
         game.start()
     }
 
@@ -46,4 +36,20 @@ class JuegoLaberinto {
     //     game.clear()
     //     niveles.get(nroNivel).jugar()
     // }
+}
+
+object configurador{
+    method configurar(laberinto)
+    {
+        game.addVisual(laberinto.player())
+        keyboard.up().onPressDo({ laberinto.player().irenUnaDireccion(arriba) })
+		keyboard.down().onPressDo({ laberinto.player().irenUnaDireccion(abajo) })
+		keyboard.left().onPressDo({ laberinto.player().irenUnaDireccion(izquierda) })
+		keyboard.right().onPressDo({ laberinto.player().irenUnaDireccion(derecha) })
+        keyboard.w().onPressDo({ laberinto.player().irenUnaDireccion(arriba) })
+		keyboard.s().onPressDo({ laberinto.player().irenUnaDireccion(abajo) })
+		keyboard.a().onPressDo({ laberinto.player().irenUnaDireccion(izquierda) })
+		keyboard.d().onPressDo({ laberinto.player().irenUnaDireccion(derecha) })
+        keyboard.r().onPressDo({ laberinto.restart() })
+    }
 }
