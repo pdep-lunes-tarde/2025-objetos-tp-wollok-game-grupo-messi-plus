@@ -4,10 +4,8 @@ import src.laberinto.*
 import nivel1.*
 import nivel2.*
 
-const niveles = [nivel1, nivel2]
-
 class JuegoLaberinto {
-    
+    const niveles = [nivel1, nivel2]
     method cargarVisuales()
     
     method configurar()
