@@ -6,7 +6,7 @@ program juego {
     // game.tittle()
     game.width(10)
     game.height(10)
-    game.cellSize(34)
+    game.cellSize(102)
     game.boardGround("fondo3.png")
 
     nivel1.jugar()
