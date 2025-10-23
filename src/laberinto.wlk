@@ -8,7 +8,7 @@ class Muro {
 
     method nombre() = nombre
     method image() {
-        return "pared.jpg"
+        return "paredgrande.jpg"
     }
     method position() {
         return position
@@ -19,7 +19,7 @@ class Objetivo {
     const position
     const nombre = "objetivo"
     method nombre() = nombre
-    method image() = "objetivo.jpg"
+    method image() = "objetivogrande.jpg"
     method position() = position  
 
     method alcanzoElObjetivo(jugador) = jugador.position() == self.position()
@@ -32,7 +32,7 @@ class HieloRoto {
     method image() = textura
 
     method imagenRandom(){
-        const texturasPosibles = ["hieloroto.jpg","hieloroto1.jpg","hieloroto2.jpg"]
+        const texturasPosibles = ["hielorotogrande.jpg","hieloroto1grande.jpg","hieloroto2grande.jpg"]
         var sacarNum = 0
         return texturasPosibles.get(sacarNum.randomUpTo(2))
     }

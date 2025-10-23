@@ -18,7 +18,7 @@ object jugador {
 	}
 
     method image() {
-        return "penguin2.png"
+        return "penguin2gde.png"
     }
 
 // reseteo de jugador
