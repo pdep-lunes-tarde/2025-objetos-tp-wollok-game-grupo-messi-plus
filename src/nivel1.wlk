@@ -3,11 +3,10 @@ import wollok.game.*
 import laberinto.*
 import jugador.*
 
-object nivel1 inherits JuegoLaberinto
+object nivel1 
 {   
-    const nroNivel = 1
     const objetivoNivel = new Objetivo(position=new Position(x=8, y=8))
-    const puntajeObjetivo = 12
+    const puntajeObjetivo = 41
     const listaObstrucciones = [
         new Position(x=0, y=0), // muro inferior
         new Position(x=1, y=0),
@@ -77,13 +76,8 @@ object nivel1 inherits JuegoLaberinto
     method listaObstrucciones() = listaObstrucciones
     method puntajeObjetivo() = puntajeObjetivo 
 
-    override method cargarVisuales()
-    {   
-        // paredes
-        self.listaObstrucciones().map({posicion => self.crearVisual(new Muro(position = posicion))})
-        //llegada
-        self.crearVisual(objetivoNivel)
-        game.whenCollideDo(jugador, { objeto => jugador.colision(objeto) })         
+    method comprobarSiSeGano(){
+        return jugador.position() == objetivoNivel.position()
+        && jugador.puntaje() == puntajeObjetivo
     }
-
 }

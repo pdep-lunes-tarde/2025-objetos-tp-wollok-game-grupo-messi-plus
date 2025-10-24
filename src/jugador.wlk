@@ -7,10 +7,13 @@ import laberinto.*
 object jugador {
 	var property position = game.at(1,1)
 	var direccion = arriba
-	var property nivelActual = nivel1
+	var nivelActual = juegoLaberinto.nivelActual()
     var movimientos = [
         new Position(x=1, y=1)
     ]
+	
+
+	method puntaje() = movimientos.size()
 
 	method restartMovimientos()
 	{
@@ -29,27 +32,14 @@ object jugador {
     }
 
 // colisiones con bloques
-	method comprobarSiGano() = self.position() == nivelActual.objetivoNivel().position() 
-							&& movimientos.size() == nivelActual.puntajeObjetivo()
+
 	method colision(objeto)
     {	
-		
-        if(objeto.nombre() == "objetivo")
-        {	
-			if(self.comprobarSiGano()) 
+		if(nivelActual.comprobarSiSeGano()) 
 			{	
 				game.say(self, "gane!")
-                //niveles.get(objeto.nivelActual()).ganar()
+                juegoLaberinto.ganar()
 			}
-			// if(!primeraVez && self.position() == objeto.position() && movimientos.size() == nivelActual.puntajeObjetivo())
-			// {
-			// 	game.say(self, "gane de nuevo!")	
-			// } 
-        }
-		if(objeto.nombre() == "hielo")
-		{
-			game.say(self, "no pises hielo")
-		}
 	}
     
 // movimiento del jugador
@@ -68,7 +58,6 @@ object jugador {
 	
 	method avanzar() {
 		const proxPosicion = direccion.siguiente(position)
-		//if(!movimientos.contains(proxPosicion) && position != nivelActual.objetivoNivel().position())
 		if(self.sePuedeAvanzar(proxPosicion))
 		{
 			game.addVisual(new HieloRoto(position = position))

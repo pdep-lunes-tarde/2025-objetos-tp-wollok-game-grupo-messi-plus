@@ -9,5 +9,5 @@ program juego {
     game.cellSize(102)
     game.boardGround("fondo3.png")
 
-    nivel1.jugar()
+    juegoLaberinto.jugar()
 }
