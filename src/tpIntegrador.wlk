@@ -1,8 +1,7 @@
 import src.jugador.*
 import wollok.game.*
 import src.laberinto.*
-import nivel1.*
-import nivel2.*
+import niveles.*
 
 object juegoLaberinto {
     const listaNiveles = [nivel1, nivel2]
@@ -41,10 +40,9 @@ object juegoLaberinto {
     }
     
      method ganar() {
-        nroNivel = nroNivel + 1
+        nroNivel =+ 1
         nivelActual = listaNiveles.get(nroNivel)
-        game.clear()
-        jugador.restartJugador()
+        self.restart()
         self.jugar()
      }
 }

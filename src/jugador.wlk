@@ -1,13 +1,12 @@
 import src.tpIntegrador.*
 import wollok.game.*
-import nivel1.*
+import niveles.*
 import laberinto.*
 
 
 object jugador {
 	var property position = game.at(1,1)
 	var direccion = arriba
-	var nivelActual = juegoLaberinto.nivelActual()
     var movimientos = [
         new Position(x=1, y=1)
     ]
@@ -35,7 +34,7 @@ object jugador {
 
 	method colision(objeto)
     {	
-		if(nivelActual.comprobarSiSeGano()) 
+		if(juegoLaberinto.nivelActual().comprobarSiSeGano()) 
 			{	
 				game.say(self, "gane!")
                 juegoLaberinto.ganar()
@@ -54,7 +53,7 @@ object jugador {
 
 	method sePuedeAvanzar(sigPosicion) = 
 	!(movimientos.contains(sigPosicion)) 
-	&& !(nivelActual.listaObstrucciones().contains(sigPosicion))
+	&& !(juegoLaberinto.nivelActual().listaObstrucciones().contains(sigPosicion))
 	
 	method avanzar() {
 		const proxPosicion = direccion.siguiente(position)

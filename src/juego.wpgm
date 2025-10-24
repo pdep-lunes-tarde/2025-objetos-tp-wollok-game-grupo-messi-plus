@@ -1,6 +1,5 @@
 import tpIntegrador.*
-import src.nivel1.*
-import src.nivel2.*
+import src.niveles.*
 
 program juego {
     // game.tittle()
