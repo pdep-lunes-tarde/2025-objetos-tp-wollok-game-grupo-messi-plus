@@ -13,10 +13,10 @@ object juegoLaberinto {
     {   
         game.addVisual(instrucciones)
         // paredes
-        self.nivelActual().listaObstrucciones().map({posicion => self.crearVisual(new Muro(position = posicion))})
+        self.nivelActual().agregarObstrucciones()
         //llegada
-        self.crearVisual(self.nivelActual().objetivoNivel())
-        game.whenCollideDo(jugador, { objeto => jugador.colision(objeto) })         
+        self.nivelActual().agregarObjetivo()
+        game.whenCollideDo(jugador, { objeto => objeto.colisionConJugador() })         
     }
 
     method restart() {
@@ -30,14 +30,6 @@ object juegoLaberinto {
     method jugar() {
         self.cargarVisuales()
         configurador.configurar(self)
-        if(nroNivel == 0)
-        {game.start()}
-    }
-
-    method crearVisual(dibujo)
-    {
-        game.addVisual(dibujo)
-		return dibujo
     }
     
      method ganar() {
