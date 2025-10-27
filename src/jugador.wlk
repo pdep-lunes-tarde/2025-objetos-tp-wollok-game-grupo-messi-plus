@@ -10,13 +10,16 @@ object jugador {
     var movimientos = [
         new Position(x=1, y=1)
     ]
+	var hielos_rotos = []
 	
-
+	method movimientos() = movimientos
+	method hielos_rotos() = hielos_rotos
 	method puntaje() = movimientos.size()
 
-	method restartMovimientos()
+	method restartListas()
 	{
 		movimientos = [new Position(x=1, y=1)]
+		hielos_rotos = []
 	}
 
     method image() {
@@ -27,7 +30,7 @@ object jugador {
     method restartJugador()
     {
         self.position(new Position(x=1, y=1))
-        self.restartMovimientos()
+        self.restartListas()
     }
 
 // colisiones con bloques
@@ -36,14 +39,19 @@ object jugador {
     {	
 		if(juegoLaberinto.nivelActual().comprobarSiSeGano()) 
 			{	
-				game.say(self, "gane!")
+				game.sound("snd_dumbvictory.wav").play()
                 juegoLaberinto.ganar()
 			}
 	}
     
 // movimiento del jugador
-	method retrocede() {
-		position = direccion.opuesto().siguiente(position)
+	method retroceder() {
+		const posicion_anterior = movimientos.get(movimientos.size() - 1)
+		self.hielos_rotos().last().quitarHielo()
+		movimientos.remove(movimientos.last())
+		hielos_rotos.remove(hielos_rotos.last())
+
+		position = posicion_anterior
 	}
 	
 	method irenUnaDireccion(d) {
@@ -59,12 +67,16 @@ object jugador {
 		const proxPosicion = direccion.siguiente(position)
 		if(self.sePuedeAvanzar(proxPosicion))
 		{
-			game.addVisual(new HieloRoto(position = position))
+			const hielo = new HieloRoto(position = position)
+			hielos_rotos.add(hielo)
+			game.addVisual(hielo)
 			movimientos.add(position)
+
+			game.sound("snow_feet_1.wav").play()
 			position = proxPosicion
 		}
 	}
-	
+
 	method setDireccion(unaDireccion) {
 		direccion = unaDireccion
 	}

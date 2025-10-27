@@ -3,10 +3,11 @@ import src.niveles.*
 
 program juego {
     // game.tittle()
-    game.width(10)
+    game.width(20)
     game.height(10)
     game.cellSize(102)
     game.boardGround("fondo3.png")
+    
 
     juegoLaberinto.jugar()
 }

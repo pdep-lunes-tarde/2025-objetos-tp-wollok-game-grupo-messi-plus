@@ -12,8 +12,10 @@ class Nivel
     method puntajeObjetivo()
 
     method comprobarSiSeGano(){
-        return jugador.position() == self.objetivoNivel().position()
-        && jugador.puntaje() == self.puntajeObjetivo()
+        return 
+        jugador.position() == self.objetivoNivel().position()
+        && 
+        jugador.puntaje() == self.puntajeObjetivo()
     }
 }
 
@@ -88,7 +90,7 @@ object nivel1 inherits Nivel
 
 object nivel2 inherits Nivel
 {   
-    override method puntajeObjetivo() = 0
+    override method puntajeObjetivo() = 43
     override method listaObstrucciones() = [
         new Position(x=0, y=0), // muro inferior
         new Position(x=1, y=0),

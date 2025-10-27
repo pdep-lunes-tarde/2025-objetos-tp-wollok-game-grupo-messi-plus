@@ -6,20 +6,21 @@ import niveles.*
 object juegoLaberinto {
     const listaNiveles = [nivel1, nivel2]
     var nroNivel = 0
-    var nivelActual = listaNiveles.get(nroNivel)
 
-    method nivelActual() = nivelActual 
+    method nivelActual() = listaNiveles.get(nroNivel)
     
     method cargarVisuales()
     {   
+        game.addVisual(instrucciones)
         // paredes
-        nivelActual.listaObstrucciones().map({posicion => self.crearVisual(new Muro(position = posicion))})
+        self.nivelActual().listaObstrucciones().map({posicion => self.crearVisual(new Muro(position = posicion))})
         //llegada
-        self.crearVisual(nivelActual.objetivoNivel())
+        self.crearVisual(self.nivelActual().objetivoNivel())
         game.whenCollideDo(jugador, { objeto => jugador.colision(objeto) })         
     }
 
     method restart() {
+        game.sound("ohno_retry.wav").play()
         game.clear()
         configurador.configurar(self)
         jugador.restartJugador()
@@ -40,10 +41,18 @@ object juegoLaberinto {
     }
     
      method ganar() {
-        nroNivel =+ 1
-        nivelActual = listaNiveles.get(nroNivel)
-        self.restart()
-        self.jugar()
+        game.clear()
+        jugador.restartJugador()    
+
+        if(self.nivelActual() != listaNiveles.last())
+        {    
+            nroNivel += 1
+            self.jugar()
+        } else
+        {
+            game.addVisual(instrucciones)
+            game.addVisual(ganaste)
+        }
      }
 }
 
@@ -60,7 +69,16 @@ object configurador{
 		keyboard.a().onPressDo({ jugador.irenUnaDireccion(izquierda) })
 		keyboard.d().onPressDo({ jugador.irenUnaDireccion(derecha) })
         keyboard.r().onPressDo({ laberinto.restart() })
+        keyboard.x().onPressDo({ jugador.retroceder() })
     }
 }
 
+object ganaste {
+    method image() = "ganaste2.png"
+    method position() = new Position(x=0, y=0) 
+}
 
+object instrucciones {
+    method image() = "instrucciones.jpg"
+    method position() = new Position(x=10, y=0)
+}

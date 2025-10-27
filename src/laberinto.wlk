@@ -23,11 +23,15 @@ class Objetivo {
     method position() = position  
 
     method alcanzoElObjetivo(jugador) = jugador.position() == self.position()
+    method alcanzarElObjetivo()
+    {
+        game.removeVisual(self)
+    }
 }
 
 class HieloRoto {
     const position
-    var textura = self.imagenRandom()
+    const textura = self.imagenRandom()
 
     method image() = textura
 
@@ -36,5 +40,10 @@ class HieloRoto {
         var sacarNum = 0
         return texturasPosibles.get(sacarNum.randomUpTo(2))
     }
-    method position() = position  
+    method position() = position
+    method quitarHielo()
+    {
+        game.sound("pop.wav").play()
+        game.removeVisual(self)
+    }  
 }
