@@ -33,16 +33,6 @@ object jugador {
         self.restartListas()
     }
 
-// colisiones con bloques
-
-	method colision(objeto)
-    {	
-		if(juegoLaberinto.nivelActual().comprobarSiSeGano()) 
-			{	
-				game.sound("snd_dumbvictory.wav").play()
-                juegoLaberinto.ganar()
-			}
-	}
     
 // movimiento del jugador
 	method retroceder() {
@@ -61,7 +51,7 @@ object jugador {
 
 	method sePuedeAvanzar(sigPosicion) = 
 	!(movimientos.contains(sigPosicion)) 
-	&& !(juegoLaberinto.nivelActual().listaObstrucciones().contains(sigPosicion))
+	&& juegoLaberinto.nivelActual().posicionValida(sigPosicion)
 	
 	method avanzar() {
 		const proxPosicion = direccion.siguiente(position)
