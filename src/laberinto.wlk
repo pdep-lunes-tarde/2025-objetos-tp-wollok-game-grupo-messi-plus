@@ -1,12 +1,13 @@
 import src.jugador.*
 import wollok.game.*
+import src.tpIntegrador.juegoLaberinto
 
 
 class Muro {
     const position
-    const nombre = "pared"
+    
 
-    method nombre() = nombre
+    
     method image() {
         return "paredgrande.jpg"
     }
@@ -17,16 +18,16 @@ class Muro {
 
 class Objetivo {
     const position
-    const nombre = "objetivo"
-    method nombre() = nombre
+    
     method image() = "objetivogrande.jpg"
     method position() = position  
 
     method alcanzoElObjetivo(jugador) = jugador.position() == self.position()
-    method alcanzarElObjetivo()
-    {
-        game.removeVisual(self)
+
+    method colisionConJugador(){
+        juegoLaberinto.nivelActual().comprobarSiSeGano() 
     }
+
 }
 
 class HieloRoto {
