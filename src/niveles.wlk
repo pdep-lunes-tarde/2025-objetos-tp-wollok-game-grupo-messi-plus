@@ -7,16 +7,30 @@ class Nivel
 {
     const objetivoNivel = new Objetivo(position=new Position(x=8, y=8))
 
-    method objetivoNivel() = objetivoNivel
+    
     method listaObstrucciones()
     method puntajeObjetivo()
 
     method comprobarSiSeGano(){
-        return 
-        jugador.position() == self.objetivoNivel().position()
-        && 
-        jugador.puntaje() == self.puntajeObjetivo()
+        if (jugador.puntaje() == self.puntajeObjetivo()){
+        game.sound("snd_dumbvictory.wav").play()
+        juegoLaberinto.ganar()}
     }
+
+    method agregarObstrucciones() {
+        self.listaObstrucciones().forEach({posicion => game.addVisual(new Muro(position = posicion))}) 
+    }
+
+    method agregarObjetivo(){
+        game.addVisual(objetivoNivel)
+    }
+
+    method posicionValida(sigPosicion){
+        return !self.listaObstrucciones().contains(sigPosicion)
+    }
+
+    
+    
 }
 
 object nivel1 inherits Nivel
