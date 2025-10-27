@@ -1,3 +1,14 @@
-program juego {
+import tpIntegrador.*
+import src.niveles.*
 
+program juego {
+    // game.tittle()
+    game.width(20)
+    game.height(10)
+    game.cellSize(102)
+    game.boardGround("fondo3.png")
+    
+
+    juegoLaberinto.jugar()
+    game.start()
 }
