@@ -10,4 +10,5 @@ program juego {
     
 
     juegoLaberinto.jugar()
+    game.start()
 }
